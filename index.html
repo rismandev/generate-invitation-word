@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Kalimat Otomatis</title>
+    <title>Generator Undangan Pernikahan Digital</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,28 +35,35 @@
             padding: 15px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            white-space: pre-line;
+            line-height: 1.5;
+        }
+        .copy-btn {
+            margin-top: 10px;
+            background-color: #008CBA;
         }
     </style>
 </head>
 <body>
-    <h1>Generator Kalimat Otomatis</h1>
+    <h1>Generator Undangan Pernikahan Digital</h1>
     
     <div class="form-group">
-        <label for="name">Nama:</label>
-        <input type="text" id="name" placeholder="Masukkan nama">
+        <label for="name">Nama Tamu:</label>
+        <input type="text" id="name" placeholder="Masukkan nama tamu">
     </div>
     
     <div class="form-group">
-        <label for="link">Link:</label>
-        <input type="url" id="link" placeholder="Masukkan link">
+        <label for="link">Link Undangan Digital:</label>
+        <input type="url" id="link" placeholder="Masukkan link undangan">
     </div>
     
-    <button onclick="generateSentence()">Generate Kalimat</button>
+    <button onclick="generateInvitation()">Generate Undangan</button>
+    <button onclick="copyToClipboard()" class="copy-btn">Salin ke Clipboard</button>
     
     <div id="result"></div>
 
     <script>
-        function generateSentence() {
+        function generateInvitation() {
             const name = document.getElementById('name').value;
             const link = document.getElementById('link').value;
             
@@ -65,7 +72,15 @@
                 return;
             }
 
-            const templates = `Assalamu'alaikum. Wr. Wb.\n\nKepada Yth. ${name},\n\nIzinkan kami mengundang Saudara/Saudari untuk menghadiri acara pernikahan yang akan kami laksanakan. Adapun acara yang akan diadakan adalah sebagai berikut :\n\nAkad Nikah 
+            const template = `Assalamu'alaikum. Wr. Wb.
+
+Kepada Yth. ${name}, 
+
+Izinkan kami mengundang Saudara/Saudari untuk menghadiri acara pernikahan yang akan kami laksanakan. 
+
+Adapun acara yang akan diadakan adalah sebagai berikut : 
+
+Akad Nikah 
 Hari dan Tanggal: Kamis, 17 Oktober 2024 
 Pukul : 08:00 s.d 09:00 WIB
 Tempat : Rumah Mempelai Wanita 
@@ -77,16 +92,29 @@ Tempat : Rumah Mempelai Wanita
 
 Link undangan bisa diakses lengkap di:
 ${link}
- 
-Note:
-Untuk mendapatkan hasil yg bagus, harap buka melalui google chrome terupdate dan matikan mode gelap dari hp
 
 Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir di acara kami
 Mohon maaf perihal undangan hanya di bagikan melalui pesan ini
-Terima kasih banyak atas perhatiannya`;
+Terima kasih banyak atas perhatiannya
 
+Note:
+Untuk mendapatkan hasil yg bagus, harap buka melalui google chrome terupdate dan matikan mode gelap dari hp`;
+
+            document.getElementById('result').innerText = template;
+        }
+
+        function copyToClipboard() {
+            const result = document.getElementById('result').innerText;
+            if (!result) {
+                alert('Harap generate undangan terlebih dahulu!');
+                return;
+            }
             
-            document.getElementById('result').innerHTML = templates;
+            navigator.clipboard.writeText(result).then(function() {
+                alert('Teks berhasil disalin ke clipboard!');
+            }, function(err) {
+                alert('Gagal menyalin teks: ', err);
+            });
         }
     </script>
 </body>
